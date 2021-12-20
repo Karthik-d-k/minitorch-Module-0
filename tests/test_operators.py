@@ -105,7 +105,10 @@ def test_sigmoid(a):
     * it is  strictly increasing.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    assert (0.0 <= sigmoid(a) <= 1.0) == 1.0
+    assert_close(1.0 - sigmoid(a), sigmoid(-a))
+    assert sigmoid(0) == 0.5
+    assert sigmoid(a + 1.0) >= sigmoid(a)
 
 
 @pytest.mark.task0_2
@@ -113,39 +116,41 @@ def test_sigmoid(a):
 def test_transitive(a, b, c):
     "Test the transitive property of less-than (a < b and b < c implies a < c)"
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    if (a < b) and (b < c):
+        assert lt(a, c) == 1.0
 
 
 @pytest.mark.task0_2
-def test_symmetric():
+@given(small_floats, small_floats)
+def test_symmetric(x, y):
     """
     Write a test that ensures that :func:`minitorch.operators.mul` is symmetric, i.e.
     gives the same value regardless of the order of its input.
     """
-    None
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    assert_close(mul(x, y), mul(y, x))
 
 
 @pytest.mark.task0_2
-def test_distribute():
+@given(small_floats, small_floats, small_floats)
+def test_distribute(x, y, z):
     r"""
     Write a test that ensures that your operators distribute, i.e.
     :math:`z \times (x + y) = z \times x + z \times y`
     """
-    None
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    assert_close(mul(z, add(x, y)), add(mul(z, x), mul(z, y)))
 
 
 @pytest.mark.task0_2
-def test_other():
+@given(small_floats, small_floats)
+def test_other(x, y):
     """
     Write a test that ensures some other property holds for your functions.
+    Done :- Testing different combination of operators.
     """
-    None
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError('Need to implement for Task 0.2')
+    assert_close(mul(neg(x), neg(y)), mul(x, y))
 
 
 # ## Task 0.3  - Higher-order functions
@@ -174,7 +179,9 @@ def test_sum_distribute(ls1, ls2):
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
     # TODO: Implement for Task 0.3.
-    raise NotImplementedError('Need to implement for Task 0.3')
+    s1 = sum(ls1) + sum(ls2)
+    s2 = sum(addLists(ls1, ls2))
+    assert_close(s1, s2)
 
 
 @pytest.mark.task0_3
@@ -193,8 +200,8 @@ def test_prod(x, y, z):
 @given(lists(small_floats))
 def test_negList(ls):
     check = negList(ls)
-    for i in range(len(ls)):
-        assert_close(check[i], -ls[i])
+    for i, o in enumerate(ls):
+        assert_close(check[i], -o)
 
 
 # ## Generic mathematical tests
