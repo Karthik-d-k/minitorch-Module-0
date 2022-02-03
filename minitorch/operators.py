@@ -136,7 +136,6 @@ def inv_back(x, d):
 
 def relu_back(x, d):
     r"If :math:`f = relu` compute d :math:`d \times f'(x)`"
-    # derivative of (1/x) is (-1/x^2).
     return d * (x > 0)
 
 
