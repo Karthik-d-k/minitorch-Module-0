@@ -22,15 +22,26 @@ class Module:
     def train(self):
         "Set the mode of this module and all descendent modules to `train`."
         # TODO: Implement for Task 0.4.
+        if not self.modules():
+            return
+        else:
+            self.training = True
+        for m in self.modules():
+            m.train()
 
     def eval(self):
         "Set the mode of this module and all descendent modules to `eval`."
         # TODO: Implement for Task 0.4.
+        if not self.modules():
+            return
+        else:
+            self.training = False
+        for m in self.modules():
+            m.eval()
 
     def named_parameters(self):
         """
         Collect all the parameters of this module and its descendents.
-
 
         Returns:
             list of pairs: Contains the name and :class:`Parameter` of each ancestor parameter.
